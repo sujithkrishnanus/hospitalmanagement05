@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Appointments</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+    <li class="breadcrumb-item active">View Aappointment</li>
+    </ul>
+    </div>
+
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-sm-12">
+    <div class="card card-table">
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'error' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+           {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'success' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+    <div class="table-responsive">
+    <table class="table table-hover table-center mb-0 datatable">
+
+
+
+      <tr><label style="font-size: medium;text-align: center;">Appointment Number: {{ appointment.id }}</label></tr>
+         <tr>
+
+            <th>Patient Name</th>
+            <td>{{appointment.pat_id.first_name}} {{appointment.pat_id.last_name}}</td>
+            <th>Patient Contact Number</th>
+            <td>{{appointment.pat_id.mobile_no}}</td>
+
+          </tr>
+          <tr>
+
+            <th>Patient Address</th>
+            <td>{{appointment.pat_id.address}}</td>
+            <th>Patient Gender</th>
+            <td>{{appointment.pat_id.gender}}</td>
+          </tr>
+          <tr>
+
+            <th>Patient Email</th>
+            <td>{{appointment.pat_id.type.email}}</td>
+            <th>Date of Appointment</th>
+            <td>{{appointment.date_of_appointment}}</td>
+          </tr>
+          <tr>
+
+            <th>Time of Appointment</th>
+            <td>{{appointment.time_of_appointment}}</td>
+
+            <th>Message</th>
+            <td>{{appointment.additional_msg}}</td>
+          </tr>
+          <tr>
+            <th>Doctor Name</th>
+            <td>{{ appointment.doctor_id.first_name}} {{ appointment.doctor_id.last_name}}</td>
+
+
+              {% if appointment.status == '0' %}
+              <th>Staus</th>
+              <td>Not Updatet Yet</td>
+              {% else %}
+              <th>Status</th>
+              <td>{{ appointment.status}}</td> {% endif %}
+              </tr>
+    </table>
+    </div>
+
+    <div>
+    {% if appointment.status == 'Approved'  %}
+        <p align="center"  style="padding-top: 20px">
+        <a href="{% url 'prescription' appointment.pat_id.id appointment.id %}">
+        <button class="btn btn-primary waves-effect waves-light w-lg" data-toggle="modal" data-target="#myModal">Prescription</button>
+        </a>
+        </p>
+    {% endif %}
+    </div>
+    
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}

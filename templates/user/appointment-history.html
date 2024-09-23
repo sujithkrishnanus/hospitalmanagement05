@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Appointments</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+    <li class="breadcrumb-item active">View Appointment</li>
+    </ul>
+    </div>
+
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-sm-12">
+    <div class="card card-table">
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'error' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+           {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'success' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+       {% if appointments %}
+    <div class="table-responsive">
+    <table class="table table-hover table-center mb-0 datatable">
+    <thead>
+    <tr>
+
+    <th>Apmt No></th>
+    <th>Doctor Name</th>
+    <th>Consultancy fee</th>
+    <th>Date of Apmt</th>
+    <th>Time of Apmt</th>
+    <th>Status</th>
+    <th >Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i  in appointments %}
+    <tr>
+
+    <td>{{ forloop.counter }}</td>
+    <td>{{i.doctor_id.first_name}} {{i.doctor_id.last_name}}</td>
+    <td>{{i.doctor_id.fee}}</td>
+    <td>{{i.date_of_appointment}}</td>
+    <td>{{i.time_of_appointment}}</td>
+    {% if i.status == '0' %}
+        <td>Not Updated Yet</td>
+    {% else %}
+        <td>{{ i.status}}</td>
+    {% endif %}
+    <td>
+    <div class="actions">
+        {% if i.status != 'Approved' and i.status != 'Canceled' %}
+            <form action="{% url 'delete_appointment' i.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Cancel</button>
+            </form>
+        {% else %}
+            <a href="{% url 'prescription' i.pat_id.id i.id %}"><button type="submit" class="btn btn-warning">Prescription</button></a>
+            <a href="{% url 'view_bills' i.pat_id.id i.id %}"><button type="submit" class="btn btn-warning">Bill</button></a>
+        {% endif %}
+    </div>
+</td>
+    </tr> {% endfor %}
+
+    </tbody>
+    </table>
+    {% else %}
+    <p>No appointment history available.</p>
+{% endif %}
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}

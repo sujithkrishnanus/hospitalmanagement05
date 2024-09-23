@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="content container-fluid">
+
+    <div class="page-header">
+    <div class="row align-items-center">
+    <div class="col">
+    <h3 class="page-title">Patient Details</h3>
+    <ul class="breadcrumb">
+    <li class="breadcrumb-item"><a>Dashboard</a></li>
+    <li class="breadcrumb-item active">All Patient Details</li>
+    </ul>
+    </div>
+    
+    </div>
+    </div>
+    
+    <div class="row">
+    <div class="col-sm-12">
+    
+    <div class="card card-table">
+
+    <div class="card-body">
+        {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'error' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+           {% if messages %}
+        {% for message in messages %}
+         {% if message.tags == 'success' %}
+       <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{message}}
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+         </button>
+          </div>
+       {% endif %}
+        {% endfor %}
+       {% endif %}
+    <div class="table-responsive">
+    <table class="table table-hover table-center mb-0 datatable">
+    <thead>
+    <tr>
+       
+        <th>Apmt No</th>
+        <th>Fullname</th>
+        <th>Gender</th>
+        <th>Mobile Number</th>
+        <th>Email</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for i in patients %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{i.first_name}} {{i.last_name}}</td>
+            <td>{{i.gender}}</td>
+            <td>{{i.mobile_no}}</td>
+            <td>{{i.type.email}}</td>
+            <td>
+            <div class="actions">
+
+                     <a href="{% url 'specific_patient' i.id %}" class="btn btn-sm bg-danger-light mr-2">
+                        Appointment
+                         </a>
+                    <a href="" class="btn btn-sm bg-danger-light mr-2">
+                    Delete
+                     </a>
+                  
+            </div>
+            </td>
+            </tr> {% endfor %}
+   
+    </tbody>
+    </table>
+   
+                                
+    
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}

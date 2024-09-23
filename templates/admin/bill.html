@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center text-info">Patient Details</h1>
+<div>
+<table class="table table-hover table-center mb-0 datatable table-bordered">
+    <tr>
+        <th>Patient Name</th>
+        <td>{{appointment.pat_id.first_name}} {{appointment.pat_id.last_name}}</td>
+        <th>Patient Contact Number</th>
+        <td>{{appointment.pat_id.mobile_no}}</td>
+    </tr>
+    <tr>
+        <th>Payment Status</th>
+        {% if bills %}
+            {% if all_bills_paid %}
+                <td> Paid </td>
+            {% else %}
+                <td>Un Paid</td>
+            {% endif %}
+        {% else %}
+            <td>Un Paid</td>
+        {% endif %}
+    </tr>
+</table>
+</div>
+<br>
+<h3 class="text-center text-warning">Your Bill</h3>
+<div class="text-center mt-5">
+<table class="table table-hover table-center mb-0 datatable table-bordered">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+        </tr>
+    <tr>
+            <td>Doctor Fee</td>
+            <td>{{ doctor_fee }}</td>
+        </tr>
+    </thead>
+    <tbody>
+{% for i in bills %}
+        <tr>
+            <td>{{ i.item_name }}</td>
+            <td>{{ i.total_price }}</td>
+        </tr>
+{% endfor %}
+    </tbody>
+    <tr>
+    <th>Total Amount:</th>
+    <th>{{ total_amount }}</th>
+</tr>
+</table>
+<br>
+{% if user.user == 'staff' %}
+    {% if all_bills_paid %}
+    <button class="btn btn-success" onclick="window.print()">Print</button>
+    {% else %}
+    <h2>Create Bill</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+    {% endif %}
+{% endif %}
+
+{% if user.user == 'patient' %}
+
+
+
+    {% if all_bills_paid %}
+    <button class="btn btn-success" onclick="window.print()">Print</button>
+    {% elif not all_bills_paid %}
+    <a href="{% url 'payment_bill' patient_id=patient.id appointment_id=appointment.id %}"><button class="btn btn-success" type="submit">Pay Bill</button></a>
+    {% endif %}
+{% endif %}
+    </div>
+{% endblock %}

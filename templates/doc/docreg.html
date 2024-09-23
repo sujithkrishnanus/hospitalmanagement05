@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block content %}
+   <body>
+      <div class="main-wrapper login-body">
+         <div class="login-wrapper">
+            <div class="container">
+               <div class="loginbox">
+                  <div class="login-right">
+                     <div class="login-right-wrap">
+                        <h1>Register Doctor</h1>
+                        <p class="account-subtitle">Plase Provide Doctor Details</p>
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            {% if messages %}
+                            {% for message in messages %}
+                             {% if message.tags == 'error' %}
+                           <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                          {{message}}
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                             </button>
+                              </div>
+                           {% endif %}
+                            {% endfor %}
+                           {% endif %}
+                               {% if messages %}
+                            {% for message in messages %}
+                             {% if message.tags == 'success' %}
+                           <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                          {{message}}
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                         <span aria-hidden="true">&times;</span>
+                             </button>
+                              </div>
+                           {% endif %}
+                            {% endfor %}
+                           {% endif %}
+                            {% csrf_token %}
+                           <div class="form-group">
+                            <label>First Name</label>
+                            <input id="first_name" type="text" class="form-control" placeholder="First Name" name="first_name" required="true">
+                           </div>
+                           <div class="form-group">
+                            <label>Last Name</label>
+                            <input id="last_name" type="text" class="form-control" placeholder="First Name" name="last_name" required="true">
+                           </div>
+                           <div class="form-group">
+                            <label>Email</label>
+                            <input id="email" type="email" class="form-control" placeholder="Email" name="email" required="true">
+                           </div>
+                           <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input id="mobno" type="text" class="form-control" placeholder="Mobile" name="mobno" maxlength="10" pattern="[0-9]+" required="true">
+                           </div>
+                           <div class="form-group">
+                              <label>Fees</label>
+                              <input id="fees" type="text" class="form-control" placeholder="Enter Your fees" name="fees" required="true">
+                             </div>
+                           <div class="form-group">
+                            <label>Specialization</label>
+                            <select type="text" name="specialization_id" id="specialization_id" value="" class="form-control" required="true">
+                                <option value="">Choose Specialization</option>
+                                {% for i in specialization %}
+           
+                                      <option value="{{i.id}}">{{i.sname}}</option>
+                                {% endfor %}
+    
+                                </select>
+                           </div>
+                          
+                           <div class="form-group">
+                            <label>Password</label>
+                            <input id="password" type="password" class="form-control" placeholder="Password" name="password" required="true">
+                           </div>
+                            <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input id="password1" type="password" class="form-control" placeholder="Confirm Password" name="password1" required="true">
+                           </div>
+                           <div class="form-group">
+                              <button class="btn btn-primary btn-block" type="submit">Register Doctor</button>
+                           </div>
+                        </form>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+{% endblock %}
